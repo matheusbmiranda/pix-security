@@ -22,10 +22,37 @@ API REST desenvolvida com Spring Boot para gerenciamento de clientes.
 
 ## Endpoints principais
 
-- POST /api/v1/customers
-- PUT /api/v1/customers/{id}
-- PATCH /api/v1/customers/{id}/deactivate
+- POST /api/v1/customers — cria cliente
+- PUT /api/v1/customers/{id} — atualiza cliente
+- PATCH /api/v1/customers/{id}/deactivate — inativa cliente
+
+## Como executar o projeto
+
+1. Clonar o repositório:
+
+```bash
+git clone https://github.com/matheusbmiranda/pix-security.git
+```
+
+2. Entrar na pasta do projeto:
+
+```bash
+cd pix-security
+```
+
+3. Executar a aplicação:
+
+```bash
+./mvnw spring-boot:run
+```
+
+4. Acessar a documentação:
+
+```
+http://localhost:8080/swagger-ui.html
+```
 
 ## Objetivo
 
-Projeto desenvolvido para prática de backend com foco em boas práticas de API REST.
+Projeto desenvolvido com foco em boas práticas de APIs REST.
+
