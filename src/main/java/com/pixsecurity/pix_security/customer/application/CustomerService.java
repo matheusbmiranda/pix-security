@@ -6,6 +6,7 @@ import com.pixsecurity.pix_security.customer.domain.Customer;
 import com.pixsecurity.pix_security.customer.domain.CustomerStatus;
 import com.pixsecurity.pix_security.customer.infrastructure.CustomerRepository;
 import com.pixsecurity.pix_security.shared.exception.CpfAlreadyExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,9 +18,8 @@ public class CustomerService {
     // Atributo (guardar o Repository), indica que essa classe CustomerService PRECISA de um CustomerRepository para funcionar
     private final CustomerRepository customerRepository;
 
-    // Construtor (receber o repository e guardar dentro da classe)
-    public CustomerService(CustomerRepository customerRepository) {
-
+     // Construtor (receber o repository e guardar dentro da classe)
+     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
@@ -43,14 +43,12 @@ public class CustomerService {
         return toResponse(customerSalvo);
     }
 
-
     // Buscar um cliente por UUID, se existir, retorna os dados deste, se não existir, mostra erro.
     public CustomerResponse buscarPorId(UUID id) {
         Customer customer = customerRepository.findById(id).orElseThrow();
 
         return toResponse(customer);
     }
-
 
     // Transforma um Customer (entidade do banco de dados) em um Response (saída da API)
     private CustomerResponse toResponse(Customer customer) {
@@ -71,7 +69,8 @@ public class CustomerService {
 
     // Metodo para o Service buscar e retornar um Customer (entidade do banco) pelo ID, se existir mostra se não existir da erro, para ser utilizado pelo update abaixo
     private Customer findCustomerById(UUID id) {
-        return customerRepository.findById(id).orElseThrow();
+
+         return customerRepository.findById(id).orElseThrow();
     }
 
     // Metodo que: busca cliente por ID, se não existir ou se status inativo = erro, atualiza dados possiveis, atualiza dataAtualizaçao, salva, converte para CustomerResponse

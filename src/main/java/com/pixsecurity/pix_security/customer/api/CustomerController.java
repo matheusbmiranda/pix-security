@@ -28,7 +28,7 @@ public class CustomerController { // É a classe que permite receber requisiçõ
 
     // Recebe um JSON válido para criar cliente, manda o service criar e salvar, e devolve uma resposta HTTP 201 com o cliente criado no formato de API
     @PostMapping // Esse metodo recebe requisições HTTP, pega os dados enviados, manda para o Service e devolve a resposta
-    @Operation(summary = "Criar cliente", description = "Cria um novo cliente no sistema")
+    @Operation(summary = "Criar cliente", description = "Cria um novo cliente no sistema") // Documentação, Swagger neste caso
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos"),

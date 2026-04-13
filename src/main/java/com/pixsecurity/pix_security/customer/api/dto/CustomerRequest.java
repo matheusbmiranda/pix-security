@@ -3,8 +3,14 @@ package com.pixsecurity.pix_security.customer.api.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-// Classe para dar erro logo na entrada dos dados na API (neste caso, via POST), caso algum campo não atenda aos requisitos
+// Classe para receber e dar erro logo na entrada dos dados na API (neste caso, via POST), caso algum campo não atenda aos requisitos
+@Setter
+@Getter
+@Data
 public class CustomerRequest {
 
     @NotBlank (message = "O preenchimento do campo CPF é obrigatório")// Este campo não poderá ser vazio ou nulo
@@ -21,35 +27,4 @@ public class CustomerRequest {
     @NotBlank (message = "O preenchimento do campo telefone é obrigatório")
     private String telefone;
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
 }
