@@ -51,7 +51,7 @@ API REST desenvolvida com Spring Boot para gerenciamento de clientes e validaç�
 
 ## Como executar o projeto
 
-### 🐳 Com Docker (recomendado)
+### - Com Docker (recomendado)
 
 ```bash
 docker-compose up --build
@@ -62,7 +62,7 @@ http://localhost:8080
 
 ---
 
-### 💻 Sem Docker (modo desenvolvimento)
+### - Sem Docker (modo desenvolvimento)
 
 1. Clonar o repositório:
 
