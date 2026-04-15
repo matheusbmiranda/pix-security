@@ -1,11 +1,41 @@
 version: '3.8'
 
 services:
+
+  # Banco relacional (clientes)
+  mysql:
+    image: mysql:8
+    container_name: mysql-pix
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql123
+      MYSQL_DATABASE: pix_security
+      MYSQL_USER: pixuser
+      MYSQL_PASSWORD: pix123
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Banco NoSQL (vinculos e auditoria)
   mongodb:
-    image: mongo:7.0
-    container_name: mongo_pix_security
+    image: mongo:6
+    container_name: mongo-pix
     ports:
       - "27017:27017"
-    restart: always
+
+  # Aplicação Spring Boot
+  app:
+    build: .
+    container_name: pix-security-app
+    ports:
+      - "8080:8080"
+    depends_on: # Garante que a aplicação só sobe quando estiver tudo certo com o MySQL
+      mysql:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
     environment:
-      MONGO_INITDB_DATABASE: pix_security
+      SPRING_PROFILES_ACTIVE: docker

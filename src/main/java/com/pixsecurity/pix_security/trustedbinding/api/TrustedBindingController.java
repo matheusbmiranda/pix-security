@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 
 @RestController // Essa classe vai receber requisições HTTP
 @RequestMapping("/api/v1/customers/{clientId}/trusted-bindings") // Rota base HTTP
-@Tag(name = "Trusted Bindings", description = "Gerenciamento de vínculos confiáveis do cliente") // Organiza e descreve um grupo de endpoints
+@Tag(name = "Trusted Bindings", description = "Gerenciamento de vínculos confiáveis do cliente") // Organiza e descreve um grupo de endpoints no Swagger
 public class TrustedBindingController {
 
     private final TrustedBindingService trustedBindingService; // Variavel para guardar o service
@@ -31,22 +33,25 @@ public class TrustedBindingController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos ou vínculo duplicado"),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
     })
-    // PathVariable recebe o ID através da URL, RequestBody recebe o corpo da requisição
+    // PathVariable recebe o ID através da URL, RequestBody recebe o corpo da requisição JSON
     // Vai devolver um objeto do tipo TrustedBinding
-    public TrustedBinding bind(@PathVariable String clientId, @RequestBody TrustedBindingRequest request) {
-        return trustedBindingService.bind(clientId, request); // Chama e executa o metodo Service e depois retorna o resultado
-
+    // ResponseEntity controla o status que vai retornar no HTTP
+    public ResponseEntity<TrustedBinding> bind(@PathVariable String clientId, @RequestBody TrustedBindingRequest request) {
+        TrustedBinding response = trustedBindingService.bind(clientId, request); // Chama o metodo bind do Service e guarda o resultado em response
+        return ResponseEntity.status(HttpStatus.CREATED).body(response); // Define o status para '201 CREATED' e retorna response no JSON
     }
 
-    @DeleteMapping("/{bindingId}") // Metodo DELET do HTTP
+    @DeleteMapping("/{bindingId}") // Metodo DELETE do HTTP
     @Operation(summary = "Remover vínculo confiável", description = "Remove um vínculo confiável de um cliente") // Documentação, Swagger neste caso
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vínculo removido com sucesso"),
             @ApiResponse(responseCode = "404", description = "Vínculo não encontrado para este cliente")
     })
-    public void unbind(@PathVariable String clientId, // Pega o clientId pela URL
-                       @PathVariable String bindingId) { // Pega o bindingId pela URL
+    // ResponseEntity controla o status que vai retornar no HTTP
+    public ResponseEntity<Void> unbind(@PathVariable String clientId, // Pega o clientId pela URL
+                                       @PathVariable String bindingId) { // Pega o bindingId pela URL
         trustedBindingService.unbind(clientId, bindingId); // Usa o metodo criado no Service e deleta
+        return ResponseEntity.noContent().build(); // Define o status retorno do HTTP para '204 NO CONTENT' e sem corpo de mensagem
     }
 
     @GetMapping // Metodo GET do HTTP

@@ -1,6 +1,7 @@
 package com.pixsecurity.pix_security.trustedbinding.application;
 
 import com.pixsecurity.pix_security.audit.application.AuditService;
+import com.pixsecurity.pix_security.shared.exception.BindingAlreadyExistsException;
 import com.pixsecurity.pix_security.trustedbinding.domain.BindingType;
 import com.pixsecurity.pix_security.trustedbinding.domain.TrustedBinding;
 import com.pixsecurity.pix_security.trustedbinding.api.TrustedBindingRequest;
@@ -39,7 +40,7 @@ public class TrustedBindingService {
         );
 
         if (alreadyExists) { // Se já existir (boolean = true) interrompe o metodo e mostra esse erro
-            throw new RuntimeException("Vínculo já cadastrado para este cliente");
+            throw new BindingAlreadyExistsException("Vínculo já cadastrado para este cliente");
         }
 
         // Se o Type for WIFI e o value NÃO for um MAC Adress válido, interrompe e dá erro
@@ -64,16 +65,16 @@ public class TrustedBindingService {
 
         TrustedBinding savedBinding = trustedBindingRepository.save(binding); // Salva no Mongo e já guarda na variável savedBinding
 
-        auditService.recordEvent( // Registrar o evento para auditoria
+        auditService.recordEvent( // Chama o metodo que registra o evento para auditoria
                 clientId,"BIND_CREATED", // Quem fez a ação e qual tipo do evento
-                Map.of( // Cria um JSON no Mongo
+                Map.of( // Detalhes do evento
                         "bindingId", savedBinding.getId(),
                         "type", savedBinding.getType().name(),
                         "value", savedBinding.getValue()
                 )
         );
 
-        return savedBinding; // Devolve o binding para controller
+        return savedBinding; // Devolve o Binding para controller
     }
 
     // Metodo para apagar um vinculo de um cliente

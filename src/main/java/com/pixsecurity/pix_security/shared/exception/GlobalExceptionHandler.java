@@ -34,5 +34,11 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
+    @ExceptionHandler(BindingAlreadyExistsException.class) // Quando Binding já existir no POST, vai utilizar este metodo de erro
+    public ResponseEntity<Map<String, String>> handleBindingAlreadyExists(BindingAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of("message", ex.getMessage()));
+    }
 }
 

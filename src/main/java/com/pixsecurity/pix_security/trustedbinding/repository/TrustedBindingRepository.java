@@ -16,7 +16,7 @@ public interface TrustedBindingRepository extends MongoRepository<TrustedBinding
     // Verificar se já existe algum TrustedBinding com esse clientId, type e value
     boolean existsByClientIdAndTypeAndValue(String clientId, BindingType type, String value);
 
-    // Buscar um TrustedBinding pelos dois ID's, se encontrar devolve o objeto se não encontrar devolve vazio graças ao "Optional"
+    // Buscar um objeto TrustedBinding pelos dois ID's, se encontrar devolve o objeto se não encontrar cria e devolve vazio graças ao "Optional"
     Optional<TrustedBinding> findByIdAndClientId(String id, String clientId);
 
     // Buscar os TrustedBinding através do clientId e retornar toda a lista

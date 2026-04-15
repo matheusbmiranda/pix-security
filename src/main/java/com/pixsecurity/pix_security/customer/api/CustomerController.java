@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController // Essa classe vai receber requisições HTTP e devolver JSON
 @RequestMapping("/api/v1/customers") // Todas as rotas dessa classe começam com /api/v1/customers
-@Tag(name = "Customers", description = "Endpoints para gerenciamento de clientes") // Organiza e descreve um grupo de endpoints
+@Tag(name = "Customers", description = "Endpoints para gerenciamento de clientes") // Organiza e descreve um grupo de endpoints no Swagger
 public class CustomerController { // É a classe que permite receber requisições via POST
     private final CustomerService customerService; // Precisa do Service para salvar no banco
 
@@ -35,7 +35,7 @@ public class CustomerController { // É a classe que permite receber requisiçõ
             @ApiResponse(responseCode = "409", description = "CPF já cadastrado")
     })
     public ResponseEntity<CustomerResponse> criarCliente(@Valid @RequestBody CustomerRequest request) { // Pegar o corpo da requisição HTTP, validar e devolver resposta HTTP completa
-        CustomerResponse response = customerService.criarCliente(request); // Pega o request, envia para CustomerService criar Customer, salva no banco, converte e devovle CustomerResponse
+        CustomerResponse response = customerService.criarCliente(request); // Pega o request, envia para CustomerService criar Customer, salva no banco, converte e devolve CustomerResponse
         return ResponseEntity.status(HttpStatus.CREATED).body(response); // Passa a resposta HTTP completa, status 201 (criado com sucesso) e o corpo da resposta é CustomerResponse
     }
 

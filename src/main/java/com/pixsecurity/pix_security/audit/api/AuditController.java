@@ -3,6 +3,7 @@ package com.pixsecurity.pix_security.audit.api;
 import com.pixsecurity.pix_security.audit.application.AuditService;
 import com.pixsecurity.pix_security.audit.domain.AuditEvent;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,8 @@ public class AuditController {
             @ApiResponse(responseCode = "200", description = "Histórico retornado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
     })
-    public Page<AuditEvent> findByClientId(@PathVariable String clientId, Pageable pageable) { // Chama esse metodo do Service que retorna a lista AuditEvent com paginação
+    public Page<AuditEvent> findByClientId(@PathVariable String clientId, @Parameter(hidden = true) Pageable pageable) { // Chama esse metodo do Service que retorna a lista AuditEvent com paginação
+        // @Parameter(hidden = true) = esconde da documentação no Swagger
         return auditService.findByClientId(clientId, pageable);
     }
 }
